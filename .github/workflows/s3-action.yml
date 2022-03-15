@@ -30,8 +30,8 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }} # the base folder, not the full path
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # update this
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # update this
           SOURCE_DIR: 'public-s3'      # optional: defaults to entire repository
           DEST_DIR: workspace-starter  # target folder inside AWS_S3_Bucket
