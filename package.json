@@ -3,7 +3,8 @@
     "version": "6.0.0",
     "description": "OpenFin Workspace Starter",
     "scripts": {
-        "package-how-tos": "node ./scripts/package.js"
+        "package-how-tos": "node ./scripts/package.js",
+        "package-how-tos-s3": "node ./scripts/package-s3.js"
     },
     "how-tos": [
         "register-with-home",
@@ -11,7 +12,7 @@
         "integrate-with-salesforce",
         "support-context-and-intents"
     ],
-    "howToCustomFolder":"",
+    "howToCustomFolder": "",
     "author": "",
     "license": "ISC",
     "devDependencies": {
