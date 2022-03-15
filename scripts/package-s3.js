@@ -24,7 +24,7 @@ for(let i = 0; i < package['how-tos'].length; i++) {
     let options = {
       files: 'public-s3/' + package['how-tos'][i] + '/**/*.json',
       from: /http:\/\/localhost:8080/g,
-      to: 'https://cdn.openfin.co/workspace/workspace-starter/pages/' + hostFolder + '/' + package['how-tos'][i],
+      to: 'https://cdn.openfin.co/workspace-starter/' + hostFolder + '/' + package['how-tos'][i],
     };
     try {
       let results = replace.sync(options);
