@@ -1,8 +1,5 @@
 name: S3 Demo Packaging
-on: 
-  push:
-    branches: 
-      - gh-pages
+on: [push, workflow_dispatch]
 jobs:
   Build-Package-Workspace-Starter-S3:
     runs-on: ubuntu-latest
