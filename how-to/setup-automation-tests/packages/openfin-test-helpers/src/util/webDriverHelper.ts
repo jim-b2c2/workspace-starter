@@ -80,6 +80,14 @@ export class WebDriverHelper {
     }
 
     /**
+     * Get the URL of the current window.
+     * @returns The window title.
+     */
+    public static async getUrl(): Promise<string> {
+        return global.client.getUrl();
+    }
+
+    /**
      * Switch to a window by its title.
      * @param title The window title to switch to.
      * @returns True if the window was available.
@@ -110,6 +118,36 @@ export class WebDriverHelper {
     }
 
     /**
+     * Switch to a window by its URL.
+     * @param url The window url to switch to.
+     * @returns True if the window was available.
+     */
+    public static async switchToWindowByUrl(url: string): Promise<boolean> {
+        // If the current window is already the correct one just return.
+        const winUrl = await global.client.getUrl();
+        if (winUrl === url) {
+            return true;
+        }
+
+        // Otherwise switch to each window in turn and see if the title matches.
+        const currentWindow = await global.client.getWindowHandle();
+
+        const windowHandles = await global.client.getWindowHandles();
+
+        for (const windowHandle of windowHandles) {
+            await global.client.switchToWindow(windowHandle);
+            const winUrl = await global.client.getUrl();
+            if (winUrl === url) {
+                return true;
+            }
+        }
+
+        // No window was found so switch back to the original one.
+        await global.client.switchToWindow(currentWindow);
+        return false;
+    }
+
+    /**
      * Wait for a window by its title.
      * @param title The window title to wait for to.
      * @param timeout The maximum amount of time to wait in seconds.
@@ -121,6 +159,26 @@ export class WebDriverHelper {
         let found = false;
         do {
             found = await WebDriverHelper.switchToWindow(title);
+            if (!found) {
+                await WebDriverHelper.sleep(1000);
+            }
+        } while (!found && Date.now() - startTime < timeout * 1000);
+
+        return found;
+    }
+
+    /**
+     * Wait for a window by its URL.
+     * @param url The window URL to wait for to.
+     * @param timeout The maximum amount of time to wait in seconds.
+     * @returns True if the window was found.
+     */
+    public static async waitForWindowByUrl(url: string, timeout: number): Promise<boolean> {
+        const startTime = Date.now();
+
+        let found = false;
+        do {
+            found = await WebDriverHelper.switchToWindowByUrl(url);
             if (!found) {
                 await WebDriverHelper.sleep(1000);
             }
@@ -158,6 +216,49 @@ export class WebDriverHelper {
     }
 
     /**
+     * Find an elements by its tag type.
+     * @param tag The tag of the element to find.
+     * @returns The elements if found.
+     */
+    public static async findElementsByTag(tag: string): Promise<string[]> {
+        const refs: ElementReference[] = await client.findElements("xpath", `//${tag}`);
+        return refs.map(ref => WebDriverHelper.elementIdFromReference(ref));
+    }
+
+    /**
+     * Find an element by its tag type.
+     * @param elementId The tag of the element to find.
+     * @param tag The tag of the element to find.
+     * @returns The elements if found.
+     */
+    public static async findElementFromElement(elementId: string, tag: string): Promise<string> {
+        const ref: ElementReference = await client.findElementFromElement(elementId, "xpath", `//${tag}`);
+        return WebDriverHelper.elementIdFromReference(ref);
+    }
+
+    /**
+     * Find an elements by its tag type.
+     * @param elementId The tag of the element to find.
+     * @param tag The tag of the element to find.
+     * @returns The elements if found.
+     */
+    public static async findElementsFromElement(elementId: string, tag: string): Promise<string[]> {
+        const refs = await client.findElementsFromElement(elementId, "xpath", `//${tag}`);
+        return refs.map(ref => WebDriverHelper.elementIdFromReference(ref));
+    }
+
+    /**
+     * Find an elements by its tag type.
+     * @param elementId The tag of the element to find.
+     * @param xpath The xpath of the element to find.
+     * @returns The elements if found.
+     */
+    public static async findElementsFromElementByPath(elementId: string, xpath: string): Promise<string[]> {
+        const refs = await client.findElementsFromElement(elementId, "xpath", xpath);
+        return refs.map(ref => WebDriverHelper.elementIdFromReference(ref));
+    }
+
+    /**
      * Find an element by its xpath.
      * @param path The path the element to find.
      * @returns The element if found.
@@ -165,6 +266,16 @@ export class WebDriverHelper {
     public static async findElementByPath(path: string): Promise<string> {
         const ref: ElementReference = await client.findElement("xpath", path);
         return WebDriverHelper.elementIdFromReference(ref);
+    }
+
+    /**
+     * Find an elements by its xpath.
+     * @param path The path the element to find.
+     * @returns The element if found.
+     */
+    public static async findElementsByPath(path: string): Promise<string[]> {
+        const refs: ElementReference[] = await client.findElements("xpath", path);
+        return refs.map(ref => WebDriverHelper.elementIdFromReference(ref));
     }
 
     /**
