@@ -1,0 +1,8 @@
+{
+    "factset": {
+        "apiEndpoint": "https://api.factset.com/",
+        "userId": "",
+        "apiKey": "",
+        "authorization": ""
+    }
+}

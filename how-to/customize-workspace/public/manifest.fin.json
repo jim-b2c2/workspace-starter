@@ -422,6 +422,19 @@
                   "task": "http://localhost:8080/images/salesforce/task.svg"
               }
           }
+        },
+        {
+          "id": "factset",
+          "icon": "http://localhost:8080/images/factset/favicon.ico",
+          "title": "Factset",
+          "enabled": false,
+          "moduleUrl": "http://localhost:8080/js/integrations/factset.bundle.js",
+          "data": {
+            "proxyEndpoint": "http://localhost:8080/proxy",
+            "iconMap": {
+              "busy": "http://localhost:8080/images/factset/busy.svg"
+            }
+          }
         }
       ]
     }
