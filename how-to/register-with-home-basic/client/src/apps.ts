@@ -6,7 +6,7 @@ export async function getApps(): Promise<App[]> {
 
 export const experoApp:App = {
     appId: "expero-company-news",
-    title: "Gateway - Company News",
+    title: "Options UI",
     manifest: "https://openfin-iex.experolabs.com/openfin/manifests/company-news.json",
     manifestType: "view",
     icons: [
@@ -64,7 +64,7 @@ export const experoApp:App = {
 
   export const developerContent: App = {
     appId: "openfin-developer-page",
-    title: "OpenFin Developer Docs",
+    title: "Options UI",
     manifestType: "snapshot",
     description: "Shows a collection of OpenFin developer pages and provides an example of how you can present a pre-built page as a launch target in OpenFin Home. This entry has a manifest type of 'snapshot'.",
     manifest: "http://localhost:8080/snapshot.json",
